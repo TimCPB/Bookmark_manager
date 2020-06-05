@@ -22,5 +22,13 @@ class BookmarkManager < Sinatra::Base
     erb(:view_bookmarks)
   end
 
+  delete '/bookmarks/:id' do
+    # lets print out the form params
+    p params
+    connection = PG.connect(dbname: 'bookmark_manager_test')
+    connection.exec("DELETE FROM bookmarks WHERE id = #{params['id']}")
+    redirect '/bookmarks'
+  end
+
   run! if app_file == $PROGRAM_NAME
 end
